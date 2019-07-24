@@ -17,6 +17,7 @@ class Db
         return static::$instance;
     }
 
+    // подключение к бд
     public function getConnection() {
         if(is_null($this->connection)) {
             $this->connection = new \PDO('mysql:host=localhost;port=3307;dbname=geekbrains', 'root', '');
@@ -27,16 +28,29 @@ class Db
         return $this->connection;
     }
     
-    private function query($sql, $param) {
-        $stml = $this->getConnection()->prepare($sql);
-        $stml->execute($param);
+    private function query($sql, $params) {
+        $stml = $this->getConnection()->prepare($sql);  // подключение к бд и подготовка запроса $sql
+        $stml->execute($params);                        
         return $stml;
     }
 
-    public function execute($sql, $param = []) {
-        $this->query($sql, $param);
+    // запрос возвращающий обЪект класса $class
+    public function queryObject($sql, $params, $class) {
+        $stmt = $this->query($sql, $params);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $class);
+        return $stmt->fetch();
+    }
+
+    
+    public function execute($sql, $params = []) {
+        $this->query($sql, $params);
         return true;
 
+    }
+
+    // возвращает последний id
+    public function lastInsertId() {
+        return $this->connection->lastInsertId();
     }
 
     // запрос в БД возвращающий 1 значение в виде массива
@@ -47,4 +61,6 @@ class Db
     public function queryAll($sql, $param = []) {
         return $this->query($sql, $param)->fetchAll();
     }
+
+
 }

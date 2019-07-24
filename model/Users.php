@@ -1,7 +1,7 @@
 <?php
 namespace app\model;
 
-class Users extends Model
+class Users extends DbModel
 {
     //поля совпадают с БД
 	public $id;
@@ -9,10 +9,12 @@ class Users extends Model
 	public $login;
     public $pass;
 
-    protected $tableName = 'users';
+    public static function getTableName() {
+        return 'users';
+    }
     
     public function __construct($name, $discription, $price) {
-        parent::__construct();
+       
         $this->name = $name;
         $this->login = $login;
         $this->pass = $pass;

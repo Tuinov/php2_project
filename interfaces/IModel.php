@@ -3,6 +3,11 @@ namespace app\interfaces;
 
 interface IModel 
 {
-    public function getOne($id);
-    public function getAll();
+    public static function getOne($id);
+    public static function getAll();
+    // public static function getTable();
 }
+
+
+// сделать getTable
+// 

@@ -1,7 +1,7 @@
 <?php
 namespace app\model;
 
-class Products extends Model
+class Products extends DbModel
 {
     //поля совпадают с БД
 	public $id;
@@ -9,10 +9,19 @@ class Products extends Model
 	public $discription;
     public $price;
 
-    protected $tableName = 'products';
+    // public $properties = [
+    //     'id' => false,
+    //     'name' => '',
+    //     'discription' => '',
+    //     'price' => ''
+    // ]
 
-    public function __construct($name, $discription, $price) {
-        parent::__construct();
+    public static function getTableName() {
+        return 'products';
+    }
+
+    public function __construct($name = null, $discription = null, $price = null) {
+        
         $this->name = $name;
         $this->discription = $discription;
         $this->price = $price;
